@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darshan Kanetkar | Portfolio</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+.glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border:1px solid rgba(255,255,255,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- HERO -->
+<section class="min-h-screen flex items-center justify-center px-6">
+<div class="flex flex-col md:flex-row items-center gap-10">
+
+<img src="./photo.jpg" class="w-40 h-40 rounded-full border-4 border-blue-500 object-cover">
+
+<div>
+<h1 id="typing" class="text-4xl md:text-6xl font-bold"></h1>
+
+<p class="mt-4 text-xl text-gray-300">
+IoT Developer • Web Developer • CSE (IoT)
+</p>
+
+<p class="mt-4 text-gray-500 max-w-lg">
+I design and build smart IoT systems and modern web applications. Passionate about solving real-world problems using Arduino, sensors, and scalable web technologies.
+</p>
+
+<div class="flex gap-4 mt-6">
+<a href="#projects" class="bg-blue-600 px-6 py-3 rounded-lg">Projects</a>
+
+<a href="./Darshan_Resume.pdf" download class="border border-blue-500 px-6 py-3 rounded-lg">
+Download Resume
+</a>
+</div>
+
+<div class="flex gap-4 mt-6 text-gray-400">
+<a href="https://github.com/darshankanetkar" target="_blank">GitHub</a>
+<a href="https://linkedin.com/in/darshan-kanetkar" target="_blank">LinkedIn</a>
+<a href="mailto:darshankanetkar@email.com">Email</a>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ABOUT -->
+<section class="py-20 text-center px-6">
+<h2 class="text-4xl mb-6">About Me</h2>
+<p class="max-w-2xl mx-auto text-gray-400">
+I’m Darshan Mukund Kanetkar, a Computer Science Engineering student specializing in Internet of Things at Presidency University. I build smart IoT systems and modern web applications, focusing on solving real-world problems through practical and scalable solutions
+</p>
+</section>
+
+<!-- SKILLS -->
+<section class="py-20 text-center px-6">
+<h2 class="text-4xl mb-10">Skills</h2>
+<div id="skills" class="grid md:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="py-20 text-center px-6">
+<h2 class="text-4xl mb-10">Projects</h2>
+<div id="projectsContainer" class="grid md:grid-cols-2 gap-6"></div>
+</section>
+
+<script>
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<50;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+dx:(Math.random()-0.5),
+dy:(Math.random()-0.5)
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+p.x+=p.dx;
+p.y+=p.dy;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,2,0,Math.PI*2);
+ctx.fillStyle="#3b82f6";
+ctx.fill();
+
+particles.forEach(p2=>{
+let d=Math.hypot(p.x-p2.x,p.y-p2.y);
+if(d<100){
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p2.x,p2.y);
+ctx.strokeStyle="rgba(59,130,246,0.1)";
+ctx.stroke();
+}
+});
+});
+
+requestAnimationFrame(animate);
+}
+animate();
+
+/* TYPING */
+const text="Hi, I'm Darshan Kanetkar";
+let i=0;
+
+function typing(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text[i];
+i++;
+setTimeout(typing,60);
+}
+}
+typing();
+
+/* SKILLS */
+const skills=[
+{ name:"Frontend Development", desc:"HTML, CSS, JavaScript, Tailwind" },
+{ name:"Backend Development", desc:"Python, Node.js" },
+{ name:"IoT Development", desc:"Arduino, Sensors, GSM, GPS" },
+{ name:"Database", desc:"MySQL, Firebase" },
+{ name:"Tools", desc:"Git, VS Code, Arduino IDE" },
+{ name:"Core Subjects", desc:"DBMS, OS, Networking" }
+];
+
+const skillDiv=document.getElementById("skills");
+
+skills.forEach(s=>{
+let d=document.createElement("div");
+d.className="glass p-6 rounded-xl hover:scale-105 transition";
+
+d.innerHTML=`
+<h3 class="text-xl mb-2">${s.name}</h3>
+<p class="text-gray-400 text-sm">${s.desc}</p>
+`;
+
+skillDiv.appendChild(d);
+});
+
+/* PROJECTS */
+const projects=[
+{
+title:"Emergency Communication Device",
+desc:"Developed a one-click emergency alert system that sends SMS and live GPS location using GSM and GPS modules.",
+tech:"Arduino • SIM900A • NEO-6M GPS",
+link:"https://github.com/darshankanetkar/emergency-communication-device.git"
+},
+{
+title:"Traffic managment system ",
+desc:"Built a system to monitor traffic and chnage the traffic signals accordingly.",
+tech:"Arduino • Sensors",
+link:"https://github.com/darshankanetkar/traffic-managment-.git"
+},
+{
+title:"Simple DBMS System",
+desc:"Created a database system with CRUD operations using MySQL and Python.",
+tech:"Python • MySQL",
+link:"https://github.com/darshankanetkar/Simple-Database-Management-System-.git"
+},
+{
+title:" Modern IoT & Developer Portfolio",
+desc:"A high-performance, responsive portfolio website featuring a custom **Canvas Particle System**, **Glassmorphism UI**, and **Dynamic Typing** effects. Designed to showcase my projects in IoT, Web Development, and Computer Science.",
+tech:"HTML • CSS • JavaScript",
+link:"https://github.com/darshankanetkar/Modern-IoT-Developer-Portfolio.git"
+},
+{
+title:"Calm Play Website",
+desc:"Designed an interactive website for autistic children.",
+tech:"HTML • CSS • JavaScript",
+link:"https://github.com/darshankanetkar/clam-play.git"
+}
+];
+
+const projDiv=document.getElementById("projectsContainer");
+
+projects.forEach(p=>{
+let d=document.createElement("div");
+d.className="glass p-6 rounded-xl hover:scale-105 transition";
+
+d.innerHTML=`
+<h3 class="text-xl mb-2">${p.title}</h3>
+<p class="text-gray-400 text-sm mb-3">${p.desc}</p>
+<p class="text-blue-400 text-xs mb-3">${p.tech}</p>
+<a href="${p.link}" target="_blank" class="text-sm text-blue-300">View Project →</a>
+`;
+
+projDiv.appendChild(d);
+});
+
+</script>
+
+</body>
+</html>
